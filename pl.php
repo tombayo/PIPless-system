@@ -179,8 +179,7 @@ abstract class Controller implements Controller_demands {
   * @return void
   */
   protected static function redirect($loc) {
-    global $config;
-    header('Location: '. $config['base_url'] . $loc);
+    header('Location: '. BASE_URL . $loc);
   }
   
   /**
