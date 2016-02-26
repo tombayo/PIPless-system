@@ -1,9 +1,9 @@
 <?php
 /**
-* PIPless v1.0.1
+* PIPless v1.0.2
 * 
 * @package  PIPless
-* @version  1.0.1
+* @version  1.0.2
 * @desc     PIPless is a tiny application framework forked from Gilbert Pellegrom's PIP. PIPless is modified to use GET-variables and static objects for an even simpler framework. It is also designed to work directly with RedBeanPHP (redbeanphp.com)
 * @author   @tombayo <me@tombayo.com>
 * @license  GPLv3
