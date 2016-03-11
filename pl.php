@@ -184,16 +184,19 @@ abstract class Controller implements Controller_demands {
   
   /**
   * Initialize RedBeanPHP ORM for mysql.
-  * @todo This method should be implemented in a more framework-like way
+  * Then returns the Toolbox, for more details see:
+  * @link http://redbeanphp.com/api/class-RedBeanPHP.ToolBox.html
   * 
-  * @return void
+  * 
+  * @return RedBeanPHP/ToolBox
   */
   protected static function initDB() {
     global $config;
     if (!class_exists('R')) {
       Load::plugin("rb"); // Loads RedBeanPHP, our ORM
-      R::setup('mysql:host='.$config['db_host'].';dbname='.$config['db_name'],$config['db_username'],$config['db_password']); // Setup RedBeanPHP
     }
+    R::setup('mysql:host='.$config['db_host'].';dbname='.$config['db_name'],$config['db_username'],$config['db_password']); // Setup RedBeanPHP
+    return R::getToolBox(); // Returns RedBeanPHP's toolbox
   }
 }
 ?>
