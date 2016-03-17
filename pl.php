@@ -15,6 +15,7 @@ class PIPless {
   * Called to execute the framework.
   * 
   * Will load a controller based on the $_GET['p']-variable.
+  * If url rewriting is turned on in the config-file, a controller is loaded based on the url instead.
   * 
   * @author  Gilbert Pellegrom, Dev7studios
   * @license MIT
@@ -31,7 +32,17 @@ class PIPless {
     // Set our defaults
     $controller = $config['default_controller'];
     $action = 'index';
-    $url = isset($_GET['p']) ? $_GET['p'] : '';
+    
+    if ($config['url_rewrite']) {
+      // Get request url and script url
+      $request_url = (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : '';
+      $script_url  = (isset($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : '';
+       
+      // Get our url path and trim the / of the left and the right
+      if($request_url != $script_url) $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
+    } else {
+      $url = isset($_GET['p']) ? $_GET['p'] : '';
+    }
     
 	  // Split the url into segments
 	  $segments = explode('/', $url);
