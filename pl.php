@@ -179,6 +179,7 @@ interface Controller_demands {
 * Parent class for Controllers.
 * Implements the Controller_demands interface to force error if the
 * controller don't have an index() method.
+* @abstract     To push the interface on the children of this class, and not on this class itself.
 */
 abstract class Controller implements Controller_demands {
     
