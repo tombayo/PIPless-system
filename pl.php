@@ -60,8 +60,8 @@ class PIPless {
       require_once(APP_DIR . 'controllers/' . $controller . '.php');
 	  }
       
-    // Check the action exists
-    if(!method_exists($controller, $action)) {
+    // Check if the action is callable
+    if(!is_callable(array($controller, $action))) {
       $action = 'index';
     }
     die($controller::$action());
