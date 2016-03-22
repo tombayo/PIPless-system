@@ -32,6 +32,7 @@ class PIPless {
     // Set our defaults
     $controller = $config['default_controller'];
     $action = 'index';
+    $argument = '';
     
     if ($config['url_rewrite']) {
       // Get request url and script url
@@ -50,6 +51,7 @@ class PIPless {
 	  // Do our default checks
 	  if(isset($segments[0]) && $segments[0] != '') $controller = $segments[0];
 	  if(isset($segments[1]) && $segments[1] != '') $action = $segments[1];
+	  if(isset($segments[1]) && $segments[1] != '') $argument = $segments[2];
 
 	  // Get our controller file
     $path = APP_DIR . 'controllers/' . $controller . '.php';
@@ -61,10 +63,10 @@ class PIPless {
 	  }
       
     // Check if the action is callable
-    if(!is_callable(array($controller, $action))) {
+    if(!is_callable([$controller, $action])) {
       $action = 'index';
     }
-    die($controller::$action());
+    die($controller::$action($argument));
   }
 }
 
