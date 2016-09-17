@@ -36,12 +36,13 @@ class PIPless {
     $argument = '';
 
     if ($config['url_rewrite']) {
-      // Get request url and script url
+      // Get request url, script url, and the requested path(minus any GET variables and such)
       $request_url = $_SERVER['REQUEST_URI'] ?? '';
       $script_url  = $_SERVER['PHP_SELF'] ?? '';
+      $request_path = parse_url($request_url, PHP_URL_PATH);
        
       // Get our url path and trim the / of the left and the right
-      if($request_url != $script_url) $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_url, 1), '/');
+      $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_path, 1), '/');
     } else {
       $url = $_GET['p'] ?? '';
     }
@@ -50,7 +51,7 @@ class PIPless {
 	  $segments = explode('/', $url);
 	  
 	  // Do our default checks
-	  // @todo Could the be replaced by the null coalescing operator?
+	  // Below lines cannot be replaced by the null-coalescing operator due to $segments[0] never will be null.
 	  if(isset($segments[0]) && $segments[0] != '') $controller = $segments[0];
 	  if(isset($segments[1]) && $segments[1] != '') $action = $segments[1];
 	  if(isset($segments[2]) && $segments[2] != '') $argument = $segments[2];
