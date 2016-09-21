@@ -40,7 +40,7 @@ abstract class Controller {
    * @param string $argument Optional argument to pass to the method
    * @param array $get Optional $_GET assoc-array to append to the url as a query
    */
-  public static function createUrl(string $controller, string $method='', string $argument='', array $get=[]):string {
+  protected static function createUrl(string $controller, string $method='', string $argument='', array $get=[]):string {
     global $config;
     
     $path = $controller;
