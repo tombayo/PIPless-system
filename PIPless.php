@@ -39,10 +39,10 @@ class PIPless {
       // Get request url, script url, and the requested path(minus any GET variables and such)
       $request_url = $_SERVER['REQUEST_URI'] ?? '';
       $script_url  = $_SERVER['PHP_SELF'] ?? '';
-      $request_path = parse_url($request_url, PHP_URL_PATH);
+      $request_path = parse_url(strtolower($request_url), PHP_URL_PATH);
        
       // Get our url path and trim the / of the left and the right
-      $url = trim(preg_replace('/'. str_replace('/', '\/', str_replace('index.php', '', $script_url)) .'/', '', $request_path, 1), '/');
+      $url = trim(preg_replace('/'. str_replace('/', '\/', strtolower(str_replace('index.php', '', $script_url))) .'/', '', $request_path, 1), '/');
     } else {
       $url = $_GET['p'] ?? '';
     }
