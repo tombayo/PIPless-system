@@ -33,7 +33,7 @@ class PIPless {
     // Set our defaults
     $controller = $config['default_controller'];
     $action = 'index';
-    $argument = '';
+    $argument = null;
 
     if ($config['url_rewrite']) {
       // Get request url, script url, and the requested path(minus any GET variables and such)
@@ -47,30 +47,31 @@ class PIPless {
       $url = $_GET['p'] ?? '';
     }
     
-	  // Split the url into segments
+	  // Split the url into segments. This should also prevent file-inclusion exploiting.
 	  $segments = explode('/', $url);
 	  
 	  // Do our default checks
 	  // Below lines cannot be replaced by the null-coalescing operator due to $segments[0] never will be null.
 	  if(isset($segments[0]) && $segments[0] != '') $controller = $segments[0];
 	  if(isset($segments[1]) && $segments[1] != '') $action = $segments[1];
-	  if(isset($segments[2]) && $segments[2] != '') $argument = $segments[2];
     
 	  // Get our controller file
     $path = APP_DIR . 'controllers/' . $controller . '.php';
-	  if(file_exists($path)) {
-      require_once($path);
-	  } else {
-      $controller = $config['error_controller'];
-      require_once(APP_DIR . 'controllers/' . $controller . '.php');
-	  }
-      
-    // Check if the action is callable
-    if(!is_callable([$controller, $action])) {
-      $action = 'index';
-    }
     
-    // Runs the selected method from the selected controller, then exits.
-    die($controller::$action($argument));
+    try {
+      // Loads the controller file
+      if(!file_exists($path)) Throw New Exception('No controller "'.$controller.'"('.$request_url.').', 404);
+      require_once($path); 
+      
+      // Check if the action is callable
+      if(!is_callable([$controller, $action])) Throw New Exception('Not callable "'.$controller.'::'.$action.'"('.$request_url.').', 404);
+
+      // Runs the selected method from the selected controller, then exits.
+      exit($controller::$action());
+      
+    } catch(Throwable $e) {
+      require_once(APP_DIR . 'controllers/' . $config['error_controller'] . '.php');
+      $config['error_controller']::index($e);
+    }
   }
 }
