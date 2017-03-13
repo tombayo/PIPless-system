@@ -46,6 +46,6 @@ class Load {
    * @param string $name Name of plugin/filename
    */
   public static function plugin(string $name)  {
-    require_once(APP_DIR .'plugins/'. strtolower($name) .'.php');
+    require_once(APP_DIR .'plugins/'. $name .'.php');
   }
 }
