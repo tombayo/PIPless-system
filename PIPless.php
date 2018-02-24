@@ -6,7 +6,7 @@
  * of the framework.
  * 
  * @package pipless
- * @version v1.1.0
+ * @version v2.0.0
  * @link https://github.com/tombayo/PIPless
  * @author  Gilbert Pellegrom, Dev7studios
  * @author  Tom Andre Munkhaug, @tombayo <me@tombayo.com>
