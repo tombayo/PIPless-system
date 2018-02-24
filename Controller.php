@@ -37,11 +37,10 @@ abstract class Controller {
    * 
    * @param string $controller The controller to link to
    * @param string $method The method within the controller to link to (optional)
-   * @param string $argument Optional argument to pass to the method
    * @param array $get Optional $_GET assoc-array to append to the url as a query
    * @param string $frag Optional fragment(after #) string to be appended to the url.
    */
-  protected static function createUrl(string $controller, string $method='', string $argument='', array $get=[], string $frag=''):string {
+  protected static function createUrl(string $controller, string $method='', array $get=[], string $frag=''):string {
     global $config;
     
     $path = $controller;
@@ -49,7 +48,6 @@ abstract class Controller {
     $url = '';
     
     if ($method) $path .= '/'.$method;
-    if ($argument) $path .= '/'.$argument;
     if ($get) $query = http_build_query($get);
     
     if ($config['url_rewrite']) {
@@ -72,12 +70,11 @@ abstract class Controller {
    *
    * @param string $controller The controller to redirect to
    * @param string $method The method within the controller to redirect to (optional)
-   * @param string $argument Optional argument to pass to the method
    * @param array $get Optional $_GET assoc-array to append to the url as a query
    * @param string $frag Optional fragment(after #) string to be appended to the url.
    */
-  protected static function redirectCtrl(string $controller, string $method='', string $argument='', array $get=[], $frag='') {
-    header('Location: '. self::createUrl($controller, $method, $argument, $get, $frag));
+  protected static function redirectCtrl(string $controller, string $method='', array $get=[], $frag='') {
+    header('Location: '. self::createUrl($controller, $method, $get, $frag));
     exit;
   }
 }
