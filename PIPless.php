@@ -149,6 +149,7 @@ class PIPless {
     // Force redirection to HTTPS
     $https = $_SERVER['HTTPS'] ?? 'off';
     if($https == 'off' && $config['force_https']) {
+      header("HTTP/1.1 301 Moved Permanently");
       header('Location: '.BASE_URL);
       exit;
     }
