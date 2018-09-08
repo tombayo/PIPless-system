@@ -30,8 +30,14 @@ class PIPless {
   static public function go() {
     global $config;
     
-    // Loads files, configs, define constants, and prepares the system for execution:
-    self::initSystem();
+    try {
+      // Loads files, configs, define constants, and prepares the system for execution:
+        self::initSystem();
+    } catch(Throwable $e) {
+      echo "System could not be loaded! Check config.<br>\n";
+      echo $e."<br>\n";
+      print_r(get_defined_constants());
+    }
       
     // Set our defaults
     $controller = $config['default_controller'];
