@@ -45,9 +45,20 @@ class View {
    *
    * @param string $var Name of variable.
    * @param mixed  $val The variable's value.
+   * @return mixed Same as the parameter $val.
    */
   public function set(string $var, $val)  {
     $this->pageVars[$var] = $val;
+    return $val;
+  }
+  
+  /**
+   * Gets an already set variable in the template.
+   * 
+   * @param string $var Name of variable.
+   */
+  public function get(string $var) {
+    return $this->pageVars[$var];
   }
 
   /**
